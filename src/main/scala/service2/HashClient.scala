@@ -21,20 +21,21 @@ object HashClient {
 
   def hash(sparkSession: SparkSession, id: Long): Boolean = {
     println("Trying to hash data with id : " + id)
-    val path = "data"
-    var data = CSV.read(sparkSession, path)
+    val path = "hdfs://localhost:9000/user/yohan/data/"
+    var data = CSV.read(sparkSession, path).coalesce(1)
     val searchedID = data("IdentifiantClient") === id
     var result = data.filter(searchedID)
     if (result.count() == 0) {
       return false
     }
+    print(data.inputFiles.mkString("Array(", ", ", ")"))
     data = hashColumn(data,"IdentifiantClient","Nom", id)
     data = hashColumn(data,"IdentifiantClient","Prenom", id)
     data = hashColumn(data,"IdentifiantClient","Adresse", id)
     data = hashColumn(data,"IdentifiantClient","DateDeSouscription", id)
     result = data.filter(searchedID)
     result.show()
-    CSV.write("temp", data)
+    CSV.write(path, result)
     true
   }
 
@@ -45,12 +46,5 @@ object HashClient {
       )
     )
   }
-
-//  def replaceFile(sc: SparkSession) = {
-//    import org.apache.hadoop.fs._
-//    val conf = sc.sparkContext.hadoopConfiguration
-//    val fs = FileSystem.get(conf)
-//    fs.rename(new Path("temp/part-0000*"), new Path("data/store.csv"))
-//  }
 
 }

@@ -1,7 +1,9 @@
 import config.Config
 import org.apache.spark.sql.SparkSession
 import scopt.OParser
+import service1.DeleteClient
 import service2.HashClient
+import utils.CSV
 
 import scala.sys.exit
 
@@ -18,8 +20,20 @@ object Main {
         .text("delete by id"),
       opt[Long]('h', "hash")
         .action((s, c) => c.copy(hash = s))
-        .text("hash by id")
+        .text("hash by id"),
+      opt[Boolean]('i', "init")
+        .action((s, c) => c.copy(init = s))
+        .text("init database")
     )
+  }
+
+
+  def initDb(sparkSession: SparkSession): Unit = {
+    // https://kontext.tech/article/1067/spark-dynamic-and-static-partition-overwrite
+    val path = "hdfs://localhost:9000/user/yohan/secret/"
+    val data = CSV.read(sparkSession, path)
+    val writingPath = "hdfs://localhost:9000/user/yohan/data/"
+    CSV.write(writingPath, data)
   }
 
   def main(args: Array[String]): Unit = {
@@ -27,6 +41,7 @@ object Main {
       case Some(config) =>
         val hashId = config.hash
         val deleteId = config.delete
+        val isInitTrue = config.init
         var result = false
         if (hashId > 1 && deleteId > 1) {
           println("We can't hash and delete your data at the same time.")
@@ -37,11 +52,14 @@ object Main {
           exit(1)
         }
         val sparkSession = SparkSession.builder().appName("GDPR-COMPLIANCE-APP").master("local").getOrCreate()
+        if (isInitTrue) {
+          initDb(sparkSession)
+        }
         if (hashId > 1) {
-            result = HashClient.hash(sparkSession, hashId)
+          result = HashClient.hash(sparkSession, hashId)
         }
         if (deleteId > 1) {
-          DeleteClient.deleteClient(sparkSession,deleteId)
+          DeleteClient.deleteClient(sparkSession, deleteId)
         }
         //val idlist = List(3,4).asInstanceOf[List[Long]]
         //DeleteClient.deleteClients(sparkSession,idlist)
@@ -54,5 +72,6 @@ object Main {
         println(OParser.usage(argParser))
     }
   }
+
 }
 

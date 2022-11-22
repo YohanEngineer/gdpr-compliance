@@ -16,10 +16,16 @@ object CSV {
       .schema(schema)
       .csv(path).coalesce(1)
 
-    return data
+    data
   }
 
   def write(path: String, df : DataFrame): Unit = {
-    df.write.mode(SaveMode.Overwrite).csv(path)
+    df.write
+      .option("header", true)
+      .option("delimiter", ";")
+      .partitionBy("IdentifiantClient")
+      .option("partitionOverwriteMode", "dynamic")
+      .mode("overwrite")
+      .csv(path)
   }
 }
