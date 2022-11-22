@@ -5,8 +5,11 @@ object Main {
   def main(args: Array[String]): Unit = {
     val sparkSession = SparkSession.builder().appName("GDPR-COMPLIANCE-APP").master("local").getOrCreate()
 //    val id = args(0).asInstanceOf[Long]
-    val id_test = 1
-    DeleteClient.deleteClient(sparkSession,id_test)
+//    val id_test = 1
+//    DeleteClient.deleteClient(sparkSession,id_test)
+
+    val idlist = List(3,4).asInstanceOf[List[Long]]
+    DeleteClient.deleteClients(sparkSession,idlist)
   }
 }
 
