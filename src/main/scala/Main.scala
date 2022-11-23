@@ -86,7 +86,10 @@ object Main {
           println(OParser.usage(argParser))
           exit(1)
         }
-        val sparkSession = SparkSession.builder().appName("GDPR-COMPLIANCE-APP").master("local").getOrCreate()
+        val sparkSession = SparkSession.builder()
+          .appName("GDPR-COMPLIANCE-APP")
+          .master("local")
+          .getOrCreate()
         if (isInitTrue) {
           initDb(sparkSession)
         }
