@@ -6,6 +6,7 @@
 - [ ] Use DataTime instead of String for the last column 
 - [ ] Enable multiple hash and multiple delete
 - [ ] Find a better way to overwrite than create partition by ID
+- [ ] Update the README 
 
 # Editing this README
 
