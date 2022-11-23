@@ -38,6 +38,10 @@ object HashClient {
     true
   }
 
+  def hashMultiple(sparkSession: SparkSession, listIds: List[Long]): Boolean = {
+    true
+  }
+
   def hashColumn(data: DataFrame, identifyingColumn: String,columnName: String, id: Long): DataFrame = {
     val encryptUDF = udf(sha256Hash _)
     data.withColumn(columnName, when(col(identifyingColumn).equalTo(id), encryptUDF(col(columnName).cast(StringType)))

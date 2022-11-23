@@ -50,8 +50,17 @@ object Main {
         .text("init database")
       ,
       checkConfig(c =>
-        if (c.hash > 1 && c.delete > 1) {
-          failure("We can't hash and delete your data at the same time.")
+        if (c.hash > 1 && c.delete > 1 ||
+          (c.hashM.nonEmpty && c.deleteM.nonEmpty) ||
+          (c.hashM.nonEmpty && c.delete > 1) ||
+          (c.deleteM.nonEmpty && c.hash > 1)) {
+          failure("We can't hash and delete data at the same time.")
+        }
+        else if (c.hashM.nonEmpty && c.hash > 1) {
+          failure("If you want to hash multiple clients please use --hashM option else --hash")
+        }
+        else if (c.deleteM.nonEmpty && c.delete > 1) {
+          failure("If you want to delete multiple clients please use --deleteM option else --delete")
         }
         else success)
     )
@@ -73,7 +82,7 @@ object Main {
         val deleteId = config.delete
         val isInitTrue = config.init
         var result = false
-        if (hashId == 1 && deleteId == 1) {
+        if (hashId == 1 && deleteId == 1 && config.hashM.isEmpty && config.deleteM.isEmpty) {
           println(OParser.usage(argParser))
           exit(1)
         }
@@ -81,21 +90,27 @@ object Main {
         if (isInitTrue) {
           initDb(sparkSession)
         }
+        if (config.hashM.nonEmpty) {
+          val idList = config.hashM.asInstanceOf[List[Long]]
+          result = HashClient.hashMultiple(sparkSession, idList)
+        }
+        if (config.deleteM.nonEmpty) {
+          val idlist = config.deleteM.asInstanceOf[List[Long]]
+          print(idlist)
+          DeleteClient.deleteClients(sparkSession,idlist)
+        }
         if (hashId > 1) {
           result = HashClient.hash(sparkSession, hashId)
         }
         if (deleteId > 1) {
           DeleteClient.deleteClient(sparkSession, deleteId)
         }
-        //val idlist = List(3,4).asInstanceOf[List[Long]]
-        //DeleteClient.deleteClients(sparkSession,idlist)
-        if (result) {
-          println("Successfully hashed data with id : " + hashId)
-        } else {
-          println("An error occured while trying to hash data with id : " + hashId)
-        }
+//        if (result) {
+//          println("Successfully hashed data with id : " + hashId)
+//        } else {
+//          println("An error occured while trying to hash data with id : " + hashId)
+//        }
       case _ =>
-        println(OParser.usage(argParser))
         exit(1)
     }
   }
