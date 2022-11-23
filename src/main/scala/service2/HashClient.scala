@@ -38,8 +38,8 @@ object HashClient {
     true
   }
 
-  def hashMultiple(sparkSession: SparkSession, listIds: List[Long]): Boolean = {
-    true
+  def hashMultiple(sparkSession: SparkSession, listIds: List[Long]) {
+    listIds.foreach(id => hash(sparkSession, id))
   }
 
   def hashColumn(data: DataFrame, identifyingColumn: String,columnName: String, id: Long): DataFrame = {
