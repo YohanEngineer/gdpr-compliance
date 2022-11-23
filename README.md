@@ -4,9 +4,9 @@
 
 - [ ] Add method to get the hashed data to stay in the dataframe
 - [ ] Use spray-json to convert json schema to case class
-- [ ] Use DataTime instead of String for the last column 
-- [ ] Enable multiple hash and multiple delete
-- [ ] Find a better way to overwrite than create partition by ID
+- [ ] Add unit test
+- [ ] Use Timestamp instead of Date for the last column 
+- [ ] Test multiple hash and multiple delete
 - [ ] Update the README 
 - [ ] Add Github Action to build the project with sbt
 
