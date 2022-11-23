@@ -1,6 +1,6 @@
 package utils
 
-object ReadParquet {
+object ParquetTools {
   def read(path: String): Unit = {
 
   }
