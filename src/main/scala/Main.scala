@@ -1,6 +1,6 @@
 import config.Config
 import org.apache.spark.sql.SparkSession
-import scopt.OParser
+import scopt.{OParser, OParserBuilder}
 import service1.DeleteClient
 import service2.HashClient
 import utils.CSV
@@ -9,21 +9,36 @@ import scala.sys.exit
 
 object Main {
 
-  val builder = OParser.builder[Config]
-  val argParser = {
+  val builder: OParserBuilder[Config] = OParser.builder[Config]
+  val argParser: OParser[Unit, Config] = {
     import builder._
     OParser.sequence(
       programName("gdpr-compliance"),
       head("gdpr-compliance", "1.0.0"),
       opt[Long]('d', "delete")
+        .optional()
         .action((s, c) => c.copy(delete = s))
-        .text("delete by id"),
+        .text("delete by id")
+        .validate(s =>
+          if (s >= 2564879) success
+          else failure("Option --delete must have a valid id")),
       opt[Long]('h', "hash")
+        .optional()
         .action((s, c) => c.copy(hash = s))
-        .text("hash by id"),
+        .text("hash by id")
+        .validate(s =>
+          if (s >= 2564879) success
+          else failure("Option --hash must have a valid id")),
       opt[Boolean]('i', "init")
+        .hidden()
+        .optional()
         .action((s, c) => c.copy(init = s))
-        .text("init database")
+        .text("init database"),
+      checkConfig(c =>
+        if (c.hash > 1 && c.delete > 1) {
+          failure("We can't hash and delete your data at the same time.")
+        }
+        else success)
     )
   }
 
@@ -43,10 +58,6 @@ object Main {
         val deleteId = config.delete
         val isInitTrue = config.init
         var result = false
-        if (hashId > 1 && deleteId > 1) {
-          println("We can't hash and delete your data at the same time.")
-          exit(1)
-        }
         if (hashId == 1 && deleteId == 1) {
           println(OParser.usage(argParser))
           exit(1)
@@ -70,6 +81,7 @@ object Main {
         }
       case _ =>
         println(OParser.usage(argParser))
+        exit(1)
     }
   }
 
