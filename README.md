@@ -7,6 +7,7 @@
 - [ ] Enable multiple hash and multiple delete
 - [ ] Find a better way to overwrite than create partition by ID
 - [ ] Update the README 
+- [ ] Add Github Action to build the project with sbt
 
 # Editing this README
 
