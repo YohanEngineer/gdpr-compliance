@@ -3,7 +3,7 @@ package service2
 import org.apache.spark.sql.functions.{col, udf, when}
 import org.apache.spark.sql.types.StringType
 import org.apache.spark.sql.{DataFrame, SparkSession}
-import utils.CSV
+import utils.CsvTools
 
 
 object HashClient {
@@ -22,7 +22,7 @@ object HashClient {
   def hash(sparkSession: SparkSession, id: Long): Boolean = {
     println("Trying to hash data with id : " + id)
     val path = "hdfs://localhost:9000/user/yohan/data/"
-    var data = CSV.read(sparkSession, path).coalesce(1)
+    var data = CsvTools.read(sparkSession, path).coalesce(1)
     val searchedID = data("IdentifiantClient") === id
     var result = data.filter(searchedID)
     if (result.count() == 0) {
@@ -34,7 +34,7 @@ object HashClient {
     data = hashColumn(data,"IdentifiantClient","DateDeSouscription", id)
     result = data.filter(searchedID)
     result.show()
-    CSV.write(path, result)
+    CsvTools.write(path, result)
     true
   }
 
