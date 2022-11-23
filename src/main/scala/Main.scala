@@ -3,7 +3,7 @@ import org.apache.spark.sql.SparkSession
 import scopt.{OParser, OParserBuilder}
 import service1.DeleteClient
 import service2.HashClient
-import utils.CSV
+import utils.CsvTools
 
 import scala.sys.exit
 
@@ -21,19 +21,34 @@ object Main {
         .text("delete by id")
         .validate(s =>
           if (s >= 2564879) success
-          else failure("Option --delete must have a valid id")),
+          else failure("Option --delete must have a valid id"))
+      ,
+      opt[Seq[Long]]("deleteM")
+        .optional()
+        .abbr("dm")
+        .valueName("<id1>,<id2>...")
+        .action((x, c) => c.copy(deleteM = x))
+        .text("delete multiple clients by ids"),
       opt[Long]('h', "hash")
         .optional()
         .action((s, c) => c.copy(hash = s))
         .text("hash by id")
         .validate(s =>
           if (s >= 2564879) success
-          else failure("Option --hash must have a valid id")),
+          else failure("Option --hash must have a valid id"))
+      ,
+      opt[Seq[Long]]("hashM")
+        .optional()
+        .abbr("hm")
+        .valueName("<id1>,<id2>...")
+        .action((x, c) => c.copy(hashM = x))
+        .text("hash multiple clients by ids"),
       opt[Boolean]('i', "init")
         .hidden()
         .optional()
         .action((s, c) => c.copy(init = s))
-        .text("init database"),
+        .text("init database")
+      ,
       checkConfig(c =>
         if (c.hash > 1 && c.delete > 1) {
           failure("We can't hash and delete your data at the same time.")
@@ -46,9 +61,9 @@ object Main {
   def initDb(sparkSession: SparkSession): Unit = {
     // https://kontext.tech/article/1067/spark-dynamic-and-static-partition-overwrite
     val path = "hdfs://localhost:9000/user/yohan/secret/"
-    val data = CSV.read(sparkSession, path)
+    val data = CsvTools.read(sparkSession, path)
     val writingPath = "hdfs://localhost:9000/user/yohan/data/"
-    CSV.write(writingPath, data)
+    CsvTools.write(writingPath, data)
   }
 
   def main(args: Array[String]): Unit = {
