@@ -28,7 +28,6 @@ object HashClient {
     if (result.count() == 0) {
       return false
     }
-    print(data.inputFiles.mkString("Array(", ", ", ")"))
     data = hashColumn(data,"IdentifiantClient","Nom", id)
     data = hashColumn(data,"IdentifiantClient","Prenom", id)
     data = hashColumn(data,"IdentifiantClient","Adresse", id)
