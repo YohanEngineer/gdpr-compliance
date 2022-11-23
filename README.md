@@ -1,5 +1,12 @@
 # GDPR-COMPLIANCE-APP
 
+# TO DO
+
+- [ ] Use spray-json to convert json schema to case class
+- [ ] Use DataTime instead of String for the last column 
+- [ ] Enable multiple hash and multiple delete
+- [ ] Find a better way to overwrite than create partition by ID
+
 # Editing this README
 
 When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
