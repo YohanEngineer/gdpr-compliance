@@ -3,10 +3,10 @@ package service2
 import org.apache.spark.sql.functions.{col, udf, when}
 import org.apache.spark.sql.types.StringType
 import org.apache.spark.sql.{DataFrame, SparkSession}
-import utils.CsvTools
+import utils.CsvTool
 
 
-object HashClient {
+object HashTool {
 
   def sha256Hash(text: String): String = String.format("" +
     "%064x",
@@ -19,28 +19,35 @@ object HashClient {
     )
   )
 
-  def hash(sparkSession: SparkSession, id: Long): Boolean = {
+  def hash(data: DataFrame, id: Long): DataFrame = {
+    var df = data
+    df = hashColumn(df, "IdentifiantClient", "Nom", id)
+    df = hashColumn(df, "IdentifiantClient", "Prenom", id)
+    df = hashColumn(df, "IdentifiantClient", "Adresse", id)
+    df
+  }
+
+  def hashClient(sparkSession: SparkSession, id: Long): Boolean = {
     println("Trying to hash data with id : " + id)
     val basePath = "hdfs://localhost:9000/user/yohan/"
     val data_path = "data"
-    var data = CsvTools.read(sparkSession, basePath + data_path).coalesce(1)
+    val data = CsvTool.read(sparkSession, basePath + data_path).coalesce(1)
     val searchedID = data("IdentifiantClient") === id
-    var result = data.filter(searchedID)
+    val result = data.filter(searchedID)
+    result.show()
     if (result.count() == 0) {
       return false
     }
-    data = hashColumn(data, "IdentifiantClient", "Nom", id)
-    data = hashColumn(data, "IdentifiantClient", "Prenom", id)
-    data = hashColumn(data, "IdentifiantClient", "Adresse", id)
-    result = data.filter(searchedID)
-    result.show()
-    CsvTools.write(basePath + "temp", data)
+    val dataHashed = hash(data, id)
+    val resultHashed = dataHashed.filter(searchedID)
+    resultHashed.show()
+    CsvTool.write(basePath + "temp", dataHashed)
 
     true
   }
 
   def hashMultiple(sparkSession: SparkSession, listIds: List[Long]) {
-    listIds.foreach(id => hash(sparkSession, id))
+    listIds.foreach(id => hashClient(sparkSession, id))
   }
 
   def hashColumn(data: DataFrame, identifyingColumn: String, columnName: String, id: Long): DataFrame = {
