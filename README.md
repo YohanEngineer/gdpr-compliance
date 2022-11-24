@@ -3,8 +3,8 @@
 # TO DO
 
 - [ ] Use spray-json to convert json schema to case class
-- [ ] Add unit test
-- [ ] Update the README
+- [ ] Add unit test for delete method
+
 
 ## Description
 
@@ -12,7 +12,23 @@
 
 ## Visuals
 
-WE NEED TO ADD SOME VISUALS 
+With gdpr-compliance app you can hash or delete personal data of your client with only one command line!
+
+#### Before the hash 
+
+![beforeHash](https://github.com/YohanEngineer/gdpr-compliance/blob/main/pictures/beforeHash.png)
+
+#### After the hash
+
+![afterHash](https://github.com/YohanEngineer/gdpr-compliance/blob/main/pictures/afterHash.png)
+
+#### Before the deletion 
+
+![beforeDelete](https://github.com/YohanEngineer/gdpr-compliance/blob/main/pictures/beforeDelete.png)
+
+#### After the deletion
+
+![afterDelete](https://github.com/YohanEngineer/gdpr-compliance/blob/main/pictures/AfterDelete.png)
 
 
 ## Installation
