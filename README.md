@@ -62,18 +62,18 @@ java -jar gdpr-compliance.jar -dm <id1>,<id2>,...
 
 ## Authors and acknowledgment
 
-This project was developped entirely by Yohan B (https://github.com/YohanEngineer) and Selim B (https://github.com/Selim-web) but we were helped by the fabulous tool named internet :earth_africa: 
+This project was developped entirely by [Yohan B](https://github.com/YohanEngineer) and [Selim B](https://github.com/Selim-web) but we were helped by the fabulous tool named internet :earth_africa: 
 
 ### Useful resources that helped us 
 
-- https://medium.com/analytics-vidhya/spark-encrypt-columns-for-pii-gdpr-compliance-and-security-3bf17bf59636
-- https://sparkbyexamples.com/spark/different-ways-to-create-a-spark-dataframe/
-- https://medium.com/codex/how-to-easily-test-spark-dataframe-transformations-3b8cc160a705
-- https://regex101.com/r/FKV8ot/1
-- https://docs.scala-lang.org/tour/regular-expression-patterns.html
-- https://docs.scala-lang.org/getting-started/intellij-track/testing-scala-in-intellij-with-scalatest.html
-- https://docs.github.com/en/actions/quickstart
 
+- [Encrypt data in Spark Dataframe](https://medium.com/analytics-vidhya/spark-encrypt-columns-for-pii-gdpr-compliance-and-security-3bf17bf59636)
+- [Create a Dataframe manually](https://sparkbyexamples.com/spark/different-ways-to-create-a-spark-dataframe/)
+- [Test transformation on DataFrame in Scala](https://medium.com/codex/how-to-easily-test-spark-dataframe-transformations-3b8cc160a705)
+- [Regex for SHA256](https://regex101.com/r/FKV8ot/1)
+- [Regular expression in Scala](https://docs.scala-lang.org/tour/regular-expression-patterns.html)
+- [Test in Scala](https://docs.scala-lang.org/getting-started/intellij-track/testing-scala-in-intellij-with-scalatest.html)
+- [Start with Github Actions](https://docs.github.com/en/actions/quickstart)
 
 ## Project status
 
