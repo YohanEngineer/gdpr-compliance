@@ -4,7 +4,6 @@
 
 - [ ] Use spray-json to convert json schema to case class
 - [ ] Add unit test
-- [ ] Test multiple delete
 - [ ] Update the README
 
 ## Description
