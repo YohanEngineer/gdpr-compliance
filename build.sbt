@@ -4,7 +4,8 @@ ThisBuild / scalaVersion := "2.11.11"
 
 lazy val root = (project in file("."))
   .settings(
-    name := "gdpr-compliance"
+    name := "gdpr-compliance",
+    assembly / assemblyJarName  := "gdpr-compliance.jar",
   )
 
 libraryDependencies += "org.apache.spark" %% "spark-core" % "2.4.8"

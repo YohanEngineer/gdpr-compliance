@@ -7,26 +7,33 @@
 - [ ] Update the README
 
 ## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
 
-gdpr-compliance is a spark-scala tool that enable a client to hash or delete personnal information detained in a csv stored in HDFS.
+<b> gdpr-compliance </b> is a spark-scala tool that enable a client to hash or delete personal information detained in a csv stored in HDFS.
 
 ## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+
+WE NEED TO ADD SOME VISUALS 
+
 
 ## Installation
 
-To install the app you need to :
+To install the application you need to :
 
 - install JDK8 and SBT
 - clone the project
-- package the application
+- package the application by running the following command in the root of the project
 
 ```
-java -jar gdpr-compliance-assembly-0.1.0-SNAPSHOT.jar
+sbt assembly
 ```
 
 ## Usage
+
+To see all the actions available use this command 
+
+```
+java -jar gdpr-compliance.jar
+```
 
 ### Hash data of a client
 
@@ -56,6 +63,17 @@ java -jar gdpr-compliance.jar -dm <id1>,<id2>,...
 ## Authors and acknowledgment
 
 This project was developped entirely by Yohan B (https://github.com/YohanEngineer) and Selim B (https://github.com/Selim-web) but we were helped by the fabulous tool named internet :earth_africa: 
+
+### Useful resources that helped us 
+
+- https://medium.com/analytics-vidhya/spark-encrypt-columns-for-pii-gdpr-compliance-and-security-3bf17bf59636
+- https://sparkbyexamples.com/spark/different-ways-to-create-a-spark-dataframe/
+- https://medium.com/codex/how-to-easily-test-spark-dataframe-transformations-3b8cc160a705
+- https://regex101.com/r/FKV8ot/1
+- https://docs.scala-lang.org/tour/regular-expression-patterns.html
+- https://docs.scala-lang.org/getting-started/intellij-track/testing-scala-in-intellij-with-scalatest.html
+- https://docs.github.com/en/actions/quickstart
+
 
 ## Project status
 
