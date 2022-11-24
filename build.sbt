@@ -12,6 +12,7 @@ libraryDependencies += "org.apache.spark" %% "spark-sql" % "2.4.8"
 libraryDependencies += "com.github.scopt" %% "scopt" % "4.1.0"
 libraryDependencies += "io.spray" %%  "spray-json" % "1.3.6"
 libraryDependencies += "com.lihaoyi" %% "os-lib" % "0.8.1"
+libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.14" % Test
 
 assemblyMergeStrategy in assembly := {
  case PathList("META-INF", xs @ _*) => MergeStrategy.discard
