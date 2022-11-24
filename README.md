@@ -2,11 +2,9 @@
 
 # TO DO
 
-- [ ] Add method to get the hashed data to stay in the dataframe
 - [ ] Use spray-json to convert json schema to case class
 - [ ] Add unit test
-- [ ] Test multiple hash and multiple delete
-- [ ] Add Github Action to build the project with sbt assembly
+- [ ] Test multiple delete
 - [ ] Update the README
 
 ## Description

@@ -32,7 +32,6 @@ object HashClient {
     data = hashColumn(data, "IdentifiantClient", "Nom", id)
     data = hashColumn(data, "IdentifiantClient", "Prenom", id)
     data = hashColumn(data, "IdentifiantClient", "Adresse", id)
-    data = hashColumn(data, "IdentifiantClient", "DateDeSouscription", id)
     result = data.filter(searchedID)
     result.show()
     CsvTools.write(basePath + "temp", data)
