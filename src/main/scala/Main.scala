@@ -3,7 +3,6 @@ import org.apache.spark.sql.SparkSession
 import scopt.{OParser, OParserBuilder}
 import service1.DeleteClient
 import service2.HashTool
-import utils.CsvTool
 
 import scala.sys.exit
 
@@ -89,7 +88,7 @@ object Main {
         if (deleteId > 1) {
           DeleteClient.deleteClient(sparkSession, deleteId)
         }
-        if ((result && hashId > 1 ) || config.hashM.nonEmpty) {
+        if ((result && hashId > 1) || config.hashM.nonEmpty) {
           println("Successfully hashed data with id : " + hashId)
         } else {
           println("An error occured while trying to hash data with id : " + hashId)
