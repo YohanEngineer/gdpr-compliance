@@ -43,12 +43,6 @@ object Main {
         .valueName("<id1>,<id2>...")
         .action((x, c) => c.copy(hashM = x))
         .text("hash multiple clients by ids"),
-      opt[Boolean]('i', "init")
-        .hidden()
-        .optional()
-        .action((s, c) => c.copy(init = s))
-        .text("init database")
-      ,
       checkConfig(c =>
         if (c.hash > 1 && c.delete > 1 ||
           (c.hashM.nonEmpty && c.deleteM.nonEmpty) ||
@@ -66,21 +60,11 @@ object Main {
     )
   }
 
-
-  def initDb(sparkSession: SparkSession): Unit = {
-    // https://kontext.tech/article/1067/spark-dynamic-and-static-partition-overwrite
-    val path = "hdfs://localhost:9000/user/yohan/secret/"
-    val data = CsvTools.read(sparkSession, path)
-    val writingPath = "hdfs://localhost:9000/user/yohan/data/"
-    CsvTools.write(writingPath, data)
-  }
-
   def main(args: Array[String]): Unit = {
     OParser.parse(argParser, args, Config()) match {
       case Some(config) =>
         val hashId = config.hash
         val deleteId = config.delete
-        val isInitTrue = config.init
         var result = false
         if (hashId == 1 && deleteId == 1 && config.hashM.isEmpty && config.deleteM.isEmpty) {
           println(OParser.usage(argParser))
@@ -90,9 +74,6 @@ object Main {
           .appName("GDPR-COMPLIANCE-APP")
           .master("local")
           .getOrCreate()
-        if (isInitTrue) {
-          initDb(sparkSession)
-        }
         if (config.hashM.nonEmpty) {
           val idList = config.hashM.asInstanceOf[List[Long]]
           HashClient.hashMultiple(sparkSession, idList)
@@ -100,7 +81,7 @@ object Main {
         if (config.deleteM.nonEmpty) {
           val idlist = config.deleteM.asInstanceOf[List[Long]]
           print(idlist)
-          DeleteClient.deleteClients(sparkSession,idlist)
+          DeleteClient.deleteClients(sparkSession, idlist)
         }
         if (hashId > 1) {
           result = HashClient.hash(sparkSession, hashId)
@@ -108,7 +89,7 @@ object Main {
         if (deleteId > 1) {
           DeleteClient.deleteClient(sparkSession, deleteId)
         }
-        if (result && (hashId > 1 || config.hashM.nonEmpty)) {
+        if ((result && hashId > 1 ) || config.hashM.nonEmpty) {
           println("Successfully hashed data with id : " + hashId)
         } else {
           println("An error occured while trying to hash data with id : " + hashId)
