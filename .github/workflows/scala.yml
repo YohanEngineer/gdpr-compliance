@@ -28,4 +28,4 @@ jobs:
         distribution: 'temurin'
         cache: 'sbt'
     - name: Build jar
-      run: sbt package
+      run: sbt assembly

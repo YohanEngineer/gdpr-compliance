@@ -2,14 +2,15 @@
 
 # TO DO
 
+- [ ] Add method to get the hashed data to stay in the dataframe
 - [ ] Use spray-json to convert json schema to case class
-- [ ] Use DataTime instead of String for the last column 
-- [ ] Enable multiple hash and multiple delete
-- [ ] Find a better way to overwrite than create partition by ID
-- [ ] Update the README 
+- [ ] Add unit test
+- [ ] Test multiple hash and multiple delete
 - [ ] Add Github Action to build the project with sbt assembly
+- [ ] Update the README
 
 ## Description
+Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
 
 gdpr-compliance is a spark-scala tool that enable a client to hash or delete personnal information detained in a csv stored in HDFS.
 
@@ -24,6 +25,9 @@ To install the app you need to :
 - clone the project
 - package the application
 
+```
+java -jar gdpr-compliance-assembly-0.1.0-SNAPSHOT.jar
+```
 
 ## Usage
 

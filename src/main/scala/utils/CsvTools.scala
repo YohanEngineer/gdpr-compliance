@@ -36,9 +36,13 @@ object CsvTools {
     df.write
       .option("header", true)
       .option("delimiter", ";")
-      .partitionBy("IdentifiantClient")
-      .option("partitionOverwriteMode", "dynamic")
       .mode("overwrite")
       .csv(path)
+
+    import scala.sys.process._
+    s"hdfs dfs -rm -r data/" !
+
+    s"hdfs dfs -mv temp data" !
+
   }
 }
