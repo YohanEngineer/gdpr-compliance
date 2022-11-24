@@ -5,10 +5,9 @@
 - [ ] Add method to get the hashed data to stay in the dataframe
 - [ ] Use spray-json to convert json schema to case class
 - [ ] Add unit test
-- [ ] Use Timestamp instead of Date for the last column 
 - [ ] Test multiple hash and multiple delete
-- [ ] Update the README 
 - [ ] Add Github Action to build the project with sbt assembly
+- [ ] Update the README
 
 ## Description
 Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
@@ -26,7 +25,7 @@ To install the app you need to :
 - clone the project
 - package the application
 
-```java
+```
 java -jar gdpr-compliance-assembly-0.1.0-SNAPSHOT.jar
 ```
 
