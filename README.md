@@ -3,8 +3,8 @@
 # TO DO
 
 - [ ] Use spray-json to convert json schema to case class
-- [ ] Add unit test
-- [ ] Update the README
+- [ ] Add unit test for delete method
+
 
 ## Description
 
