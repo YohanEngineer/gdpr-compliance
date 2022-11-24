@@ -62,7 +62,7 @@ java -jar gdpr-compliance.jar -dm <id1>,<id2>,...
 
 ## Authors and acknowledgment
 
-This project was developped entirely by Yohan B (https://github.com/YohanEngineer) and Selim B (https://github.com/Selim-web) but we were helped by the fabulous tool named internet :earth_africa: 
+This project was developped entirely by [Yohan B](https://github.com/YohanEngineer) and [Selim B](https://github.com/Selim-web) but we were helped by the fabulous tool named internet :earth_africa: 
 
 ### Useful resources that helped us 
 
