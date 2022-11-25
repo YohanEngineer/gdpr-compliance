@@ -3,10 +3,10 @@ package service2
 import config.Client
 import org.apache.spark.sql.types.LongType
 import org.scalatest.funsuite.AnyFunSuite
-import utils.SparkSessionTestWrapper
+import utils.{DataSetTestUtils, SparkSessionTestWrapper}
 
 
-class HashToolTest extends AnyFunSuite with SparkSessionTestWrapper with DataFrameTestUtils {
+class HashToolTest extends AnyFunSuite with SparkSessionTestWrapper with DataSetTestUtils {
 
   test("HashTool.hash") {
 
