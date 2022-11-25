@@ -1,8 +1,9 @@
 package service2
 
+import config.Client
 import org.apache.spark.sql.functions.{col, udf, when}
 import org.apache.spark.sql.types.StringType
-import org.apache.spark.sql.{DataFrame, SparkSession}
+import org.apache.spark.sql.{Dataset, SparkSession}
 import utils.CsvTool
 
 
@@ -19,29 +20,29 @@ object HashTool {
     )
   )
 
-  def hash(data: DataFrame, id: Long): DataFrame = {
-    var df = data
-    df = hashColumn(df, "IdentifiantClient", "Nom", id)
-    df = hashColumn(df, "IdentifiantClient", "Prenom", id)
-    df = hashColumn(df, "IdentifiantClient", "Adresse", id)
-    df
+  def hash(sparkSession: SparkSession, data: Dataset[Client], id: Long): Dataset[Client] = {
+    var ds = data
+    ds = hashColumn(sparkSession, ds, "IdentifiantClient", "Nom", id)
+    ds = hashColumn(sparkSession, ds, "IdentifiantClient", "Prenom", id)
+    ds = hashColumn(sparkSession, ds, "IdentifiantClient", "Adresse", id)
+    ds
   }
 
   def hashClient(sparkSession: SparkSession, id: Long): Boolean = {
     println("Trying to hash data with id : " + id)
     val basePath = "hdfs://localhost:9000/user/yohan/"
     val data_path = "data"
-    val data = CsvTool.read(sparkSession, basePath + data_path).coalesce(1)
+    val data = CsvTool.readDS(sparkSession, basePath + data_path).coalesce(1)
     val searchedID = data("IdentifiantClient") === id
     val result = data.filter(searchedID)
     result.show()
     if (result.count() == 0) {
       return false
     }
-    val dataHashed = hash(data, id)
+    val dataHashed = hash(sparkSession, data, id)
     val resultHashed = dataHashed.filter(searchedID)
     resultHashed.show()
-    CsvTool.write(basePath + "temp", dataHashed)
+    CsvTool.writeDS(basePath + "temp", dataHashed)
 
     true
   }
@@ -50,12 +51,13 @@ object HashTool {
     listIds.foreach(id => hashClient(sparkSession, id))
   }
 
-  def hashColumn(data: DataFrame, identifyingColumn: String, columnName: String, id: Long): DataFrame = {
+  def hashColumn(sparkSession: SparkSession, ds: Dataset[Client], identifyingColumn: String, columnName: String, id: Long): Dataset[Client] = {
     val encryptUDF = udf(sha256Hash _)
-    data.withColumn(columnName, when(col(identifyingColumn).equalTo(id), encryptUDF(col(columnName).cast(StringType)))
+    import sparkSession.implicits._
+    ds.withColumn(columnName, when(col(identifyingColumn).equalTo(id), encryptUDF(col(columnName).cast(StringType)))
       .otherwise(col(columnName)
       )
-    )
+    ).as[Client]
   }
 
 }

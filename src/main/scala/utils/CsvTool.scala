@@ -1,7 +1,8 @@
 package utils
 
 import config.Client
-import org.apache.spark.sql.{DataFrame, SparkSession}
+import org.apache.spark.sql.types.LongType
+import org.apache.spark.sql.{DataFrame, Dataset, SparkSession}
 
 object CsvTool {
   def read(sparkSession: SparkSession, path: String): DataFrame = {
@@ -32,8 +33,37 @@ object CsvTool {
     data
   }
 
+  def readDS(sparkSession: SparkSession, path: String): Dataset[Client] = {
+
+    import sparkSession.implicits._
+
+    val ds: Dataset[Client] = sparkSession
+      .read
+      .option("header", true)
+      .option("delimiter", ";")
+      .csv(path).coalesce(1)
+      .withColumn("IdentifiantClient", 'IdentifiantClient.cast(LongType))
+      .as[Client]
+
+    ds
+  }
+
   def write(path: String, df: DataFrame): Unit = {
     df.write
+      .option("header", true)
+      .option("delimiter", ";")
+      .mode("overwrite")
+      .csv(path)
+
+    import scala.sys.process._
+    s"hdfs dfs -rm -r data/" !
+
+    s"hdfs dfs -mv temp data" !
+
+  }
+
+  def writeDS(path: String, ds: Dataset[Client]): Unit = {
+    ds.write
       .option("header", true)
       .option("delimiter", ";")
       .mode("overwrite")
