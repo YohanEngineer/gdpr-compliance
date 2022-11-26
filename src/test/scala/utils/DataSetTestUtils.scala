@@ -1,9 +1,10 @@
 package utils
 
-import org.apache.spark.sql.DataFrame
+import config.Client
+import org.apache.spark.sql.Dataset
 import org.apache.spark.sql.types.StructType
 
-trait DataFrameTestUtils {
+trait DataSetTestUtils {
 
   def assertSchema(schema1: StructType, schema2: StructType, checkNullable: Boolean = true): Boolean = {
     val s1 = schema1.fields.map(f => (f.name, f.dataType, f.nullable))
@@ -16,7 +17,7 @@ trait DataFrameTestUtils {
     }
   }
 
-  def assertData(df1: DataFrame, df2: DataFrame): Boolean = {
+  def assertData(df1: Dataset[Client], df2: Dataset[Client]): Boolean = {
     val data1 = df1.collect()
     val data2 = df2.collect()
     data1.diff(data2).nonEmpty
