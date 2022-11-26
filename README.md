@@ -1,11 +1,5 @@
 # GDPR-COMPLIANCE-APP
 
-# TO DO
-
-- [ ] Use spray-json to convert json schema to case class
-- [ ] Add unit test for delete method
-
-
 ## Description
 
 <b> gdpr-compliance </b> is a spark-scala tool that enable a client to hash or delete personal information detained in a csv stored in HDFS.
