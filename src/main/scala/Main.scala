@@ -1,7 +1,7 @@
 import config.Config
 import org.apache.spark.sql.SparkSession
 import scopt.{OParser, OParserBuilder}
-import service1.DeleteClient
+import service1.DeleteTool
 import service2.HashTool
 
 import scala.sys.exit
@@ -79,13 +79,13 @@ object Main {
         }
         if (config.deleteM.nonEmpty) {
           val idlist = config.deleteM.asInstanceOf[List[Long]]
-          DeleteClient.deleteClients(sparkSession, idlist)
+          DeleteTool.deleteClients(sparkSession, idlist)
         }
         if (hashId > 1) {
           result = HashTool.hashClient(sparkSession, hashId)
         }
         if (deleteId > 1) {
-          DeleteClient.deleteClient(sparkSession, deleteId)
+          DeleteTool.deleteClient(sparkSession, deleteId)
         }
       case _ =>
         exit(1)
