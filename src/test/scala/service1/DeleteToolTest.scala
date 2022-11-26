@@ -28,7 +28,7 @@ class DeleteToolTest extends AnyFunSuite with SparkSessionTestWrapper with DataS
 
   }
 
-  test("HashTool.hash.schemaIsTheSame") {
+  test("DeleteTool.delete.schemaIsTheSame") {
 
     import spark.implicits._
 
