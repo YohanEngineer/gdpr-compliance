@@ -42,31 +42,31 @@ sbt assembly
 To see all the actions available use this command 
 
 ```
-java -jar gdpr-compliance.jar
+spark-submit --class Main --deploy-mode cluster gdpr-compliance.jar
 ```
 
 ### Hash data of a client
 
 ```
-java -jar gdpr-compliance.jar -h <id>
+spark-submit --class Main --deploy-mode cluster gdpr-compliance.jar -h <id>
 ```
 
 ### Hash data of multiple clients
 
 ```
-java -jar gdpr-compliance.jar -hm <id1>,<id2>,...
+spark-submit --class Main --deploy-mode cluster gdpr-compliance.jar -hm <id1>,<id2>,...
 ```
 
 ### Delete data of a client
 
 ```
-java -jar gdpr-compliance.jar -d <id>
+spark-submit --class Main --deploy-mode cluster gdpr-compliance.jar -d <id>
 ```
 
 ### Delete data of multiple client
 
 ```
-java -jar gdpr-compliance.jar -dm <id1>,<id2>,...
+spark-submit --class Main --deploy-mode cluster gdpr-compliance.jar -dm <id1>,<id2>,...
 ```
 
 
